@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de patrones de aguayo</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="p5.min.js" defer></script>
+    <script src="sketch.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Generador de patrones de aguayo</h1>
+    </header>
+    <main>
+        <section id="controls">
+            <div>
+                <label for="slider1">Slider 1</label>
+                <input type="range" id="slider1" min="0" max="255" value="0">
+            </div>
+            <div>
+                <label for="slider2">Slider 2</label>
+                <input type="range" id="slider2" min="0" max="255" value="0">
+            </div>
+            <div>
+                <label for="slider3">Slider 3</label>
+                <input type="range" id="slider3" min="0" max="255" value="0">
+            </div>
+            <button id="generate">Generar</button>
+        </section>
+
+
+        <canvas id="canvas"></canvas>
+    </main>
+</body>
+
+</html>
