@@ -1,5 +1,17 @@
+body {
+    max-width: 1080px;
+    margin-inline: auto;
+}
+
 h1 {
     text-align: center;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 #controls {

@@ -1,7 +1,7 @@
 let cursorX = 0;
 
 function setup() {
-    createCanvas(600, 600);
+    createCanvas(800, 600);
     background(0);
     noStroke();
     const botonGenerar = select('#generate');
@@ -11,9 +11,7 @@ function setup() {
 }
 
 function draw() {
-    // patron1(0);
-    // patron1(90);
-    // patron1(180);
+
 }
 
 function patron1(inicio) {
