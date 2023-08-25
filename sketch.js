@@ -1,18 +1,23 @@
 let posicionX = 0;
+let repeticion = 10;
 
 function setup() {
     createCanvas(900, 900);
     background(0);
+
     const botonGenerar = select('#generate');
     botonGenerar.mousePressed(() => {
-        patronHebra1(posicionX);
+        background(0);
+        posicionX = 0;
+        for (let i = 0; i < repeticion; i++) {
+            patronHebra1(posicionX);
+        }
     });
 }
 
 function draw() {
 
 }
-
 
 
 // piecewiese functions for fabric patterns
@@ -34,6 +39,10 @@ function patronHebra1(inicio) {
     posicionX = posicionX + 90;
 }
 
+function patronHebra2() {
+    // invertido del 1
+
+}
 // color palettes functions
 function paletasRandom() {
     const paletas = [
@@ -53,4 +62,9 @@ function franjasRandom() {
 // utilities functions
 function funcionEscalonada(x, inset, step) {
     return Math.floor((x - inset) / step);
+}
+
+function randomElement(array) {
+    let element = array[Math.floor(Math.random * array.length)];
+    return element;
 }
