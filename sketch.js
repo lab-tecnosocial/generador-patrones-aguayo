@@ -74,6 +74,7 @@ function patronHebra2(inicio) {
 
 
 // colores
+
 function paletasRandom() {
     const paletas = [
         ['red', 'orange', 'yellow', 'orange', 'red'],
@@ -84,7 +85,7 @@ function paletasRandom() {
 }
 
 function franjasRandom() {
-    const franjas = ['skyblue', 'crimson', 'green'];
+    const franjas = ['skyblue', 'crimson', 'green', "#B13166", "#F81868", "#F63B3A", "#F35FBA", "#6F1A65", "#013AA3", "#F00002", "#13B2CB", "#F93EA1", "#11C606"];
     return franjas[Math.floor(Math.random() * franjas.length)];
 
 }
@@ -94,6 +95,9 @@ function paletasRandom2() {
         ['red', 'orange', 'yellow'],
         ['blue', 'skyblue', 'white'],
         ['green', 'lightgreen', 'white'],
+        ["#E40003", "#FF4761", "#FDA9D7"], // rojos a rosados
+        ["#0251A3", "#03ACC7", "#8BFDDD"], // azules a celestes
+
     ];
     return paletas[Math.floor(Math.random() * paletas.length)];
 }
