@@ -73,7 +73,6 @@ function patronHebra2(inicio) {
 
     }
 
-    // adornos
     adorno1(inicio);
 
     posicionX = posicionX + 90;
@@ -81,16 +80,26 @@ function patronHebra2(inicio) {
 
 }
 
+// adornos
+
 function adorno1(inicio) {
-    let franja = franjasRandom();
+    let franja1 = franjasRandom();
     let offsetCenter = 30;
     let offsetX = 14;
     let offsetY = 15;
-    fill(franja);
-    noStroke();
+    fill(franja1);
     ellipseMode(CENTER);
+    rectMode(CENTER);
+
+
     for (let j = 0; j < lienzoAlto; j += 100) {
-        circle(inicio + offsetCenter + offsetX, j + offsetCenter + offsetY, 60);
+        push();
+        translate(inicio + offsetCenter + offsetX, offsetCenter + offsetY + j);
+        rotate(PI / 4);
+        for (let i = 40; i > 0; i -= 10) {
+            square(0, 0, i);
+        }
+        pop();
     }
 
 }
