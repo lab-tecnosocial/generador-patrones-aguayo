@@ -1,8 +1,10 @@
 let posicionX = 0;
 let repeticion = 10;
+let lienzoAncho = 900;
+let lienzoAlto = 900;
 
 function setup() {
-    createCanvas(900, 900);
+    createCanvas(lienzoAncho, lienzoAlto);
     background(0);
 
     const botonGenerar = select('#generate');
@@ -56,6 +58,8 @@ function patronHebra2(inicio) {
         if (i >= 15 && i < 75) {
             stroke(franja);
             line(i + inicio, 0, i + inicio, height);
+            // put multiple squares all over the heigth
+
         }
         if (i < 15) {
             stroke(paleta[Math.floor(i / 5)]);
@@ -68,7 +72,26 @@ function patronHebra2(inicio) {
         }
 
     }
+
+    // adornos
+    adorno1(inicio);
+
     posicionX = posicionX + 90;
+
+
+}
+
+function adorno1(inicio) {
+    let franja = franjasRandom();
+    let offsetCenter = 30;
+    let offsetX = 14;
+    let offsetY = 15;
+    fill(franja);
+    noStroke();
+    ellipseMode(CENTER);
+    for (let j = 0; j < lienzoAlto; j += 100) {
+        circle(inicio + offsetCenter + offsetX, j + offsetCenter + offsetY, 60);
+    }
 
 }
 
@@ -110,4 +133,10 @@ function funcionEscalonada(x, inset, step) {
 function randomElement(array) {
     let element = array[Math.floor(Math.random * array.length)];
     return element;
+}
+
+
+// adornos
+function rombos() {
+
 }
