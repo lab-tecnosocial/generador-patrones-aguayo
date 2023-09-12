@@ -73,7 +73,7 @@ function patronHebra2(inicio) {
 
     }
 
-    adorno1(inicio);
+    adorno1(inicio, paleta);
 
     posicionX = posicionX + 90;
 
@@ -82,12 +82,10 @@ function patronHebra2(inicio) {
 
 // adornos
 
-function adorno1(inicio) {
-    let franja1 = franjasRandom();
+function adorno1(inicio, paleta) {
     let offsetCenter = 30;
     let offsetX = 14;
     let offsetY = 15;
-    fill(franja1);
     ellipseMode(CENTER);
     rectMode(CENTER);
 
@@ -96,7 +94,9 @@ function adorno1(inicio) {
         push();
         translate(inicio + offsetCenter + offsetX, offsetCenter + offsetY + j);
         rotate(PI / 4);
-        for (let i = 40; i > 0; i -= 10) {
+        for (let i = 40; i > 10; i -= 10) {
+            noStroke();
+            fill(paleta[(i / 10) - 2]);
             square(0, 0, i);
         }
         pop();
@@ -142,10 +142,4 @@ function funcionEscalonada(x, inset, step) {
 function randomElement(array) {
     let element = array[Math.floor(Math.random * array.length)];
     return element;
-}
-
-
-// adornos
-function rombos() {
-
 }
