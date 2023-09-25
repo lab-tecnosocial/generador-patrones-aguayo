@@ -3,13 +3,21 @@ let posicionX = 0;
 
 // es escritorio
 let esMovil = false;
-let lienzoAncho = 990;
-let lienzoAlto = 990;
+let lienzoAncho = 891;
+let lienzoAlto = 891;
 let patronAncho = 33; // 990 / 30 = 33
 let breakpoints = [0, 99, 297, 495, 693, 891, 990];
+let paletasArray;
 
+
+
+function preload() {
+    tablaPaletas = loadTable('paletas_pinturas.csv', 'csv', 'header');
+
+}
 
 function setup() {
+    paletasArray = tablaPaletas.getArray();
     if (windowWidth <= 600) {
         esMovil = true;
         let container = select('#canvas-container');
@@ -42,6 +50,7 @@ function setup() {
 function draw() {
 
 }
+
 
 // estructura del lienzo 
 function estructuraLienzo(breakpoints) {
