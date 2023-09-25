@@ -1,0 +1,28 @@
+{
+  "name": "generador-patrones-aguayo",
+  "version": "1.0.0",
+  "description": "Un generador algoritmico de patrones de aguayo",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "gh-pages -d ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lab-tecnosocial/generador-patrones-aguayo.git"
+  },
+  "keywords": [
+    "arte",
+    "algoritmico",
+    "p5.js"
+  ],
+  "author": "Alex Ojeda Copa, Lab TecnoSocial",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lab-tecnosocial/generador-patrones-aguayo/issues"
+  },
+  "homepage": "https://github.com/lab-tecnosocial/generador-patrones-aguayo#readme",
+  "devDependencies": {
+    "gh-pages": "^6.0.0"
+  }
+}
