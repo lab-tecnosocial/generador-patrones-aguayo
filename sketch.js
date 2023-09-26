@@ -1,20 +1,29 @@
-// layout: (24 * 3) + (72 * 2) + (72 * 2) + (72 * 2) + (72 * 2) + (24 * 3) = 720
-// relleno: patron0 * 3, patron1 + patron0 + patron1, patron2 + patron0 + patron3 + patron0 + patron2, patron1 + patron0 + patron1, patron0 * 3
+// layout escritorio: (24 * 3) + (72 * 2) + (72 * 2) + (72 * 2) + (72 * 2) + (24 * 3) = 720
 // patron0 = 24px
 // patron1 = 72px
 // patron2 = 48px
 // patron3 = 96px
+// layout movil: (12 * 3) + (36 * 2) + (36 * 2) + (36 * 2) + (36 * 2) + (12 * 3) = 360
+// patron0 = 12px
+// patron1 = 36px
+// patron2 = 24px
+// patron3 = 48px
+// relleno: patron0 * 3, patron1 + patron0 + patron1, patron2 + patron0 + patron3 + patron0 + patron2, patron1 + patron0 + patron1, patron0 * 3
+
+
+// variables generales
 let posicionX = 0;
+let generados = 0;
+let paletasArray;
 
 // es escritorio
-let esMovil = false;
 let lienzoAncho = 720;
 let lienzoAlto = 720;
 let patronAncho = 24; // 720 / 30 = 24
 let breakpoints = [0, 72, 144, 216, 288, 360, 432, 504, 576, 648, 720];
-let paletasArray;
-let generados = 0;
 
+// es movil
+let esMovil = false;
 
 function preload() {
     tablaPaletas = loadTable('paletas.csv', 'csv', 'header');
@@ -24,16 +33,17 @@ function setup() {
     paletasArray = tablaPaletas.getArray();
     if (windowWidth <= 600) {
         esMovil = true;
-        let container = select('#canvas-container');
-        container.style('width', '360px');
-        container.style('height', '360px');
+        lienzoAncho = 360;
+        lienzoAlto = 360;
+        patronAncho = 12;
+        breakpoints = [0, 36, 72, 108, 144, 180, 216, 252, 288, 324, 360];
         noLoop();
     }
 
     var canvas = createCanvas(lienzoAncho, lienzoAlto);
     canvas.parent('canvas-container');
     background(100);
-    // estructuraLienzo(breakpoints);
+    estructuraLienzo(breakpoints);
 
     const botonGenerar = select('#generate');
     botonGenerar.mousePressed(() => {
@@ -55,7 +65,6 @@ function draw() {
 
 // estructura del lienzo 
 function estructuraLienzo(breakpoints) {
-    // make lines for breakpoints
     for (let i = 0; i < breakpoints.length; i++) {
         stroke('cyan');
         strokeWeight(2);
@@ -87,16 +96,17 @@ function generarTodo() {
         paletas = paletasRandom;
     }
 
-    // if (generados >= 10) {
+    // if (generados >= 30) {
     //     // combine elements from different paletas subarrays
-    //     let paletasRandom = [];
+    //     let paletasRandomCombinadas = [];
     //     for (let i = 0; i < 5; i++) {
     //         let paleta = [];
     //         for (let j = 0; j < paletasArray.length; j++) {
     //             paleta.push(paletasArray[j][i]);
     //         }
-    //         paletasRandom.push(paleta);
+    //         paletasRandomCombinadas.push(paleta);
     //     }
+    //     paletas = paletasRandomCombinadas;
 
     // }
 
@@ -129,9 +139,7 @@ function generarBloque1(paletas) {
     patron0(posicionX, paletas[3]);
     patron1(posicionX, paletas[4]);
 
-    // patron1(posicionX, paletasPatron1[0]);
-    // patron0(posicionX, paletasPatron0[3]);
-    // patron1(posicionX, paletasPatron1[0]);
+
 }
 
 function generarBloque2(paletas) {
@@ -140,37 +148,53 @@ function generarBloque2(paletas) {
     patron3(posicionX, paletas[3]);
     patron0(posicionX, paletas[1]);
     patron2(posicionX, paletas[0]);
-
-    // patron2(posicionX, paletasPatron0[0]);
-    // patron0(posicionX, paletasPatron0[1]);
-    // patron3(posicionX, paletasPatron0[3]);
-    // patron0(posicionX, paletasPatron0[1]);
-    // patron2(posicionX, paletasPatron0[0]);
 }
 
 // patrones de franjas
 function patron0(inicio, paleta) {
-    //  x1 = 24
-    let ancho = 24;
-    // 1, 1, 1, 1, 3, 1, 1, 1, 1 = 12 which are the units of the width
-    // 2, 2, 2, 2, 6, 2, 2, 2, 2 = 24 which is a multiple of 3
-    // partial sums: 0, 2, 4, 6, 8, 16, 18, 20, 22, 24
-    for (let i = 0; i < ancho; i += 1) {
-        if (i < 3 || i >= 21) {
-            stroke(paleta[0]);
-            line(i + inicio, 0, i + inicio, height);
+    let ancho = patronAncho * 1;
+    if (esMovil) {
+        // 1, 1, 1, 1, 3, 1, 1, 1, 1 = 12 
+        for (let i = 0; i < ancho; i += 1) {
+            if (i < 1 || i >= 11) {
+                stroke(paleta[0]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 1 && i < 2 || i >= 10 && i < 11) {
+                stroke(paleta[1]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 2 && i < 3 || i >= 9 && i < 10) {
+                stroke(paleta[2]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 3 && i < 9) {
+                stroke(paleta[3]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+
         }
-        if (i >= 3 && i < 6 || i >= 18 && i < 21) {
-            stroke(paleta[1]);
-            line(i + inicio, 0, i + inicio, height);
-        }
-        if (i >= 6 && i < 9 || i >= 15 && i < 18) {
-            stroke(paleta[2]);
-            line(i + inicio, 0, i + inicio, height);
-        }
-        if (i >= 9 && i < 15) {
-            stroke(paleta[3]);
-            line(i + inicio, 0, i + inicio, height);
+    } else {
+        for (let i = 0; i < ancho; i += 1) {
+            // 2, 2, 2, 2, 6, 2, 2, 2, 2 = 24 
+
+            if (i < 3 || i >= 21) {
+                stroke(paleta[0]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 3 && i < 6 || i >= 18 && i < 21) {
+                stroke(paleta[1]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 6 && i < 9 || i >= 15 && i < 18) {
+                stroke(paleta[2]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 9 && i < 15) {
+                stroke(paleta[3]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+
         }
 
     }
@@ -180,27 +204,52 @@ function patron0(inicio, paleta) {
 
 
 function patron1(inicio, paleta) {
-    // x3 = 72
-    let ancho = 72;
-    // 2, 2, 2, 60, 2, 2, 2 = 72
-    for (let i = 0; i < ancho; i += 1) {
-        if (i < 2 || i >= 70) {
-            stroke(paleta[0]);
-            line(i + inicio, 0, i + inicio, height);
-        }
-        if (i >= 2 && i < 4 || i >= 68 && i < 70) {
-            stroke(paleta[1]);
-            line(i + inicio, 0, i + inicio, height);
-        }
-        if (i >= 4 && i < 6 || i >= 66 && i < 68) {
-            stroke(paleta[2]);
-            line(i + inicio, 0, i + inicio, height);
-        }
-        if (i >= 6 && i < 66) {
-            stroke(paleta[3]);
-            line(i + inicio, 0, i + inicio, height);
-        }
+    let ancho = patronAncho * 3;
+    if (esMovil) {
 
+        for (let i = 0; i < ancho; i += 1) {
+            // 1, 1, 1, 30, 1, 1, 1 = 36
+
+            if (i < 1 || i >= 35) {
+                stroke(paleta[0]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 1 && i < 2 || i >= 34 && i < 35) {
+                stroke(paleta[1]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 2 && i < 3 || i >= 33 && i < 34) {
+                stroke(paleta[2]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 3 && i < 33) {
+                stroke(paleta[3]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+
+        }
+    } else {
+        for (let i = 0; i < ancho; i += 1) {
+            // 2, 2, 2, 60, 2, 2, 2 = 72
+
+            if (i < 2 || i >= 70) {
+                stroke(paleta[0]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 2 && i < 4 || i >= 68 && i < 70) {
+                stroke(paleta[1]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 4 && i < 6 || i >= 66 && i < 68) {
+                stroke(paleta[2]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 6 && i < 66) {
+                stroke(paleta[3]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+
+        }
     }
     posicionX = posicionX + ancho;
 
@@ -208,56 +257,106 @@ function patron1(inicio, paleta) {
 }
 
 function patron2(inicio, paleta) {
-    // x2 = 48
-    let ancho = 48;
-    // 4, 4, 4, 4, 12, 4, 4, 4, 4 = 48
+    let ancho = patronAncho * 2;
 
-    for (let i = 0; i < ancho; i += 1) {
-        if (i < 4 || i >= 44) {
-            stroke(paleta[0]);
-            line(i + inicio, 0, i + inicio, height);
+    if (esMovil) {
+        // 2, 2, 2, 2, 6, 2, 2, 2, 2 = 24
+        for (let i = 0; i < ancho; i += 1) {
+            if (i < 2 || i >= 22) {
+                stroke(paleta[0]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 2 && i < 4 || i >= 20 && i < 22) {
+                stroke(paleta[1]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+
+            if (i >= 4 && i < 6 || i >= 18 && i < 20) {
+                stroke(paleta[2]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 6 && i < 18) {
+                stroke(paleta[3]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+
         }
-        if (i >= 4 && i < 8 || i >= 40 && i < 44) {
-            stroke(paleta[1]);
-            line(i + inicio, 0, i + inicio, height);
-        }
-        if (i >= 8 && i < 12 || i >= 36 && i < 40) {
-            stroke(paleta[2]);
-            line(i + inicio, 0, i + inicio, height);
-        }
-        if (i >= 12 && i < 36) {
-            stroke(paleta[3]);
-            line(i + inicio, 0, i + inicio, height);
+    } else {
+
+        for (let i = 0; i < ancho; i += 1) {
+            // 4, 4, 4, 4, 12, 4, 4, 4, 4 = 48
+
+            if (i < 4 || i >= 44) {
+                stroke(paleta[0]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 4 && i < 8 || i >= 40 && i < 44) {
+                stroke(paleta[1]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 8 && i < 12 || i >= 36 && i < 40) {
+                stroke(paleta[2]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 12 && i < 36) {
+                stroke(paleta[3]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+
         }
 
     }
-
 
     posicionX = posicionX + ancho;
 }
 
 function patron3(inicio, paleta) {
-    // x4 = 96
-    let ancho = 96;
-    // 8, 8, 8, 48, 8, 8, 8 = 96
-    for (let i = 0; i < ancho; i += 1) {
-        if (i < 8 || i >= 88) {
-            stroke(paleta[0]);
-            line(i + inicio, 0, i + inicio, height);
-        }
-        if (i >= 8 && i < 16 || i >= 80 && i < 88) {
-            stroke(paleta[1]);
-            line(i + inicio, 0, i + inicio, height);
-        }
-        if (i >= 16 && i < 24 || i >= 72 && i < 80) {
-            stroke(paleta[2]);
-            line(i + inicio, 0, i + inicio, height);
-        }
-        if (i >= 24 && i < 72) {
-            stroke(paleta[3]);
-            line(i + inicio, 0, i + inicio, height);
-        }
+    let ancho = patronAncho * 4;
+    if (esMovil) {
+        // 4, 4, 4, 4, 16, 4, 4, 4, 4 = 48
+        for (let i = 0; i < ancho; i += 1) {
 
+            if (i < 4 || i >= 44) {
+                stroke(paleta[0]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 4 && i < 8 || i >= 40 && i < 44) {
+                stroke(paleta[1]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 8 && i < 12 || i >= 36 && i < 40) {
+                stroke(paleta[2]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 12 && i < 36) {
+                stroke(paleta[3]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+
+        }
+    } else {
+
+        for (let i = 0; i < ancho; i += 1) {
+            // 8, 8, 8, 48, 8, 8, 8 = 96
+
+            if (i < 8 || i >= 88) {
+                stroke(paleta[0]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 8 && i < 16 || i >= 80 && i < 88) {
+                stroke(paleta[1]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 16 && i < 24 || i >= 72 && i < 80) {
+                stroke(paleta[2]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+            if (i >= 24 && i < 72) {
+                stroke(paleta[3]);
+                line(i + inicio, 0, i + inicio, height);
+            }
+
+        }
     }
     posicionX = posicionX + ancho;
 
