@@ -38,6 +38,24 @@ h1 {
     font-size: 2.5rem;
 }
 
+body:after {
+    content: "beta";
+    position: fixed;
+    width: 80px;
+    height: 25px;
+    background: white;
+    top: 7px;
+    left: -20px;
+    text-align: center;
+    font-size: 13px;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: black;
+    line-height: 27px;
+    transform: rotate(-45deg);
+}
+
 /* MAIN */
 
 main {
@@ -80,6 +98,49 @@ main {
     background-color: hsl(358, 96%, 41%);
 }
 
+/* SLIDERS */
+
+/* select input range and style that and his labels */
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 0px 0px 0px #000000;
+    background: #FB3B42;
+    border-radius: 0.5rem;
+    border: 0px solid #000000;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    box-shadow: 0px 0px 0px #000000;
+    border: 0px solid #000000;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -5px;
+}
+
+/* select labels */
+.botones label {
+    font-family: 'Space Mono';
+    font-size: 0.8rem;
+    margin-block: 0.5rem;
+}
+
 /* CANVAS */
 
 #canvas-container {
@@ -98,6 +159,7 @@ footer {
     width: 100%;
     text-align: center;
 }
+
 
 
 /* MEDIA QUERIES */
