@@ -13,10 +13,11 @@ let lienzoAlto = 720;
 let patronAncho = 24; // 720 / 30 = 24
 let breakpoints = [0, 72, 144, 216, 288, 360, 432, 504, 576, 648, 720];
 let paletasArray;
+let generados = 0;
 
 
 function preload() {
-    tablaPaletas = loadTable('paletas_pinturas.csv', 'csv', 'header');
+    tablaPaletas = loadTable('paletas.csv', 'csv', 'header');
 }
 
 function setup() {
@@ -32,17 +33,12 @@ function setup() {
     var canvas = createCanvas(lienzoAncho, lienzoAlto);
     canvas.parent('canvas-container');
     background(100);
-    estructuraLienzo(breakpoints);
+    // estructuraLienzo(breakpoints);
 
     const botonGenerar = select('#generate');
     botonGenerar.mousePressed(() => {
-        generarBloque0();
-        generarBloque1();
-        generarBloque2();
-        generarBloque1();
-        generarBloque0();
-        posicionX = 0;
-        // estructuraLienzo(breakpoints);
+        generarTodo();
+        generados++;
     });
 
     const botonDescargar = select('#download');
@@ -69,7 +65,49 @@ function estructuraLienzo(breakpoints) {
 }
 
 // funcion general de generar patrones
-function generarRandomTodo() {
+function generarTodo() {
+    console.log(generados);
+    let paletas = [];
+    if (generados < 5) {
+        // divide the array in chunks of 5 consecutive subarray, then select a random chunk
+        let paletasChunks = [];
+        for (let i = 0; i < paletasArray.length; i += 5) {
+            let chunk = paletasArray.slice(i, i + 5);
+            paletasChunks.push(chunk);
+        }
+        paletas = randomElement(paletasChunks);
+    }
+
+    if (generados >= 5) {
+        let paletasRandom = [];
+        for (let i = 0; i < 5; i++) {
+            let paleta = randomElement(paletasArray);
+            paletasRandom.push(paleta);
+        }
+        paletas = paletasRandom;
+    }
+
+    // if (generados >= 10) {
+    //     // combine elements from different paletas subarrays
+    //     let paletasRandom = [];
+    //     for (let i = 0; i < 5; i++) {
+    //         let paleta = [];
+    //         for (let j = 0; j < paletasArray.length; j++) {
+    //             paleta.push(paletasArray[j][i]);
+    //         }
+    //         paletasRandom.push(paleta);
+    //     }
+
+    // }
+
+    generarBloque0(paletas);
+    generarBloque1(paletas);
+    generarBloque2(paletas);
+    generarBloque1(paletas);
+    generarBloque0(paletas);
+    posicionX = 0;
+}
+function generarRandom() {
     posicionX = 0;
     for (let i = 0; i < nPatrones; i++) {
         let patrones = [patron0];
@@ -80,24 +118,34 @@ function generarRandomTodo() {
 }
 
 // funciones de generacion de bloques
-function generarBloque0() {
+function generarBloque0(paletas) {
     for (let i = 0; i < 3; i++) {
-        patron0(posicionX, paletasPatron0[i]);
+        patron0(posicionX, paletas[i]);
     }
 }
 
-function generarBloque1() {
-    patron1(posicionX, paletasPatron1[0]);
-    patron0(posicionX, paletasPatron0[3]);
-    patron1(posicionX, paletasPatron1[0]);
+function generarBloque1(paletas) {
+    patron1(posicionX, paletas[4]);
+    patron0(posicionX, paletas[3]);
+    patron1(posicionX, paletas[4]);
+
+    // patron1(posicionX, paletasPatron1[0]);
+    // patron0(posicionX, paletasPatron0[3]);
+    // patron1(posicionX, paletasPatron1[0]);
 }
 
-function generarBloque2() {
-    patron2(posicionX, paletasPatron0[0]);
-    patron0(posicionX, paletasPatron0[1]);
-    patron3(posicionX, paletasPatron0[3]);
-    patron0(posicionX, paletasPatron0[1]);
-    patron2(posicionX, paletasPatron0[0]);
+function generarBloque2(paletas) {
+    patron2(posicionX, paletas[0]);
+    patron0(posicionX, paletas[1]);
+    patron3(posicionX, paletas[3]);
+    patron0(posicionX, paletas[1]);
+    patron2(posicionX, paletas[0]);
+
+    // patron2(posicionX, paletasPatron0[0]);
+    // patron0(posicionX, paletasPatron0[1]);
+    // patron3(posicionX, paletasPatron0[3]);
+    // patron0(posicionX, paletasPatron0[1]);
+    // patron2(posicionX, paletasPatron0[0]);
 }
 
 // patrones de franjas
@@ -216,38 +264,6 @@ function patron3(inicio, paleta) {
 }
 
 
-// colores
-const paletasPatron0 = [
-    ["#FF897A", "#DB3E43", "#A0030F", "#560004", "#40050C"],
-    ["#BED480", "#63A46A", "#2C5C25", "#043816", "#03211A"],
-    ["#FAB4A6", "#F14065", "#D93E5E", "#87152B", "#451219"],
-    ["#84BBD4", "#128CB6", "#0074A5", "#003873", "#000651"]
-
-]
-
-const paletasPatron1 = [
-    ["#4A6046", "#DDB092", "#D74B66", "#002E41"],
-];
-
-function patronOld1(inicio) {
-    let paleta = paletasRandom();
-    let franja = franjasRandom();
-    for (let i = 0; i < patronAncho; i += 1) {
-
-        if (i < 20 || i >= 70) {
-            stroke(franja);
-            line(i + inicio, 0, i + inicio, height);
-        }
-        if (i >= 20 && i < 70) {
-            stroke(paleta[funcionEscalonada(i, 20, 10)]);
-            line(i + inicio, 0, i + inicio, height);
-        }
-
-    }
-    posicionX = posicionX + 90;
-}
-
-
 function patronOld2(inicio) {
     // invertido del 1
     let paleta = paletasRandom2();
@@ -305,33 +321,11 @@ function adorno1(inicio, paleta) {
 
 // colores
 
-function paletasRandom() {
-    const paletas = [
-        ['red', 'orange', 'yellow', 'orange', 'red'],
-        ['blue', 'skyblue', 'white', 'skyblue', 'blue'],
-        ['green', 'lightgreen', 'white', 'lightgreen', 'green'],
-    ];
-    return paletas[Math.floor(Math.random() * paletas.length)];
-}
-
-function franjasRandom() {
-    const franjas = ['skyblue', 'crimson', 'green', "#B13166", "#F81868", "#F63B3A", "#F35FBA", "#6F1A65", "#013AA3", "#F00002", "#13B2CB", "#F93EA1", "#11C606"];
-    return franjas[Math.floor(Math.random() * franjas.length)];
-
-}
-
-function paletasRandom2() {
-    const paletas = [
-        ['red', 'orange', 'yellow'],
-        ['blue', 'skyblue', 'white'],
-        ['green', 'lightgreen', 'white'],
-        ["#E40003", "#FF4761", "#FDA9D7"], // rojos a rosados
-        ["#0251A3", "#03ACC7", "#8BFDDD"], // azules a celestes
-
-    ];
-    return paletas[Math.floor(Math.random() * paletas.length)];
-}
-
+paletasSaturadas = [
+    ['red', 'orange', 'yellow', 'orange', 'red'],
+    ['blue', 'skyblue', 'white', 'skyblue', 'blue'],
+    ['green', 'lightgreen', 'white', 'lightgreen', 'green'],
+];
 
 // utilities functions
 function funcionEscalonada(x, inset, step) {
@@ -339,6 +333,6 @@ function funcionEscalonada(x, inset, step) {
 }
 
 function randomElement(array) {
-    let element = array[Math.floor(Math.random * array.length)];
+    let element = array[Math.floor(Math.random() * array.length)];
     return element;
 }
