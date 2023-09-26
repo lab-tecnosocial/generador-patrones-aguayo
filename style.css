@@ -1,3 +1,4 @@
+/* GENERAL */
 :root {
     color-scheme: dark;
 }
@@ -12,6 +13,12 @@ body {
     margin-inline: auto;
     max-width: 100vh;
 }
+
+a {
+    color: #FB3B42;
+}
+
+/* HEADER */
 
 header {
     display: flex;
@@ -28,21 +35,24 @@ header {
 h1 {
     font-family: 'Monoton';
     text-align: center;
-    font-size: 2rem;
+    font-size: 2.5rem;
 }
+
+/* MAIN */
 
 main {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+    margin-top: 5rem;
 }
 
 .botones {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: space-around;
     margin-block: 1rem;
 }
 
@@ -50,7 +60,8 @@ main {
 #generate,
 #download {
     font-family: 'Space Mono';
-    font-size: 2rem;
+    font-size: 1.2rem;
+    width: 100%;
     margin-block: 1rem;
     background-color: #FB3B42;
     border: none;
@@ -59,10 +70,8 @@ main {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 1rem;
     border-radius: 0.5rem;
     cursor: pointer;
-
 
 }
 
@@ -71,17 +80,18 @@ main {
     background-color: hsl(358, 96%, 41%);
 }
 
+/* CANVAS */
+
 #canvas-container {
     overflow-x: scroll;
     overflow-y: hidden;
 }
 
-a {
-    color: #FB3B42;
-}
 
+/* FOOTER */
 footer {
     font-family: 'Space Mono';
+    font-size: 0.8rem;
     position: fixed;
     left: 0;
     bottom: 0;
@@ -89,7 +99,8 @@ footer {
     text-align: center;
 }
 
-/* Media queries for mobile */
+
+/* MEDIA QUERIES */
 @media screen and (max-width: 600px) {
     body {
         max-width: 100%;
@@ -105,13 +116,13 @@ footer {
         font-size: 1.5rem;
     }
 
-
     main {
         flex-direction: column-reverse;
-        /* reverse */
+        margin-top: 1rem;
     }
 
     footer {
         font-size: 0.8rem;
+        bottom: 10px;
     }
 }
